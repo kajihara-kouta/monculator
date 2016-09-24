@@ -17,6 +17,9 @@ var bodyParser = require('body-parser');
 // create a new express server
 var app = express();
 
+//
+var weatherApi = require('./weatherapiget.js');
+
 //body-parser
 app.use(bodyParser());
 app.use(bodyParser.json());
@@ -25,7 +28,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
 
-app.get('/calcPremium', function(req,res) {
+app.get('/hoge', weatherApi.getInfo);
+
+
+app.post('/calcPremium', function(req,res) {
     //年齢
     var age = req.body.age;
     //登山開始日
