@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
 
-//mailor
+//mailer
 var sendmail = require('./mailor.js');
 var intervals = setInterval(function() {
     console.log('mail started');
@@ -39,9 +39,14 @@ setTimeout(function() {
     clearInterval(intervals);
 }, 4000000);
 
+//csv読み込み
+var csvReader = require('./csvreader.js');
+//山情報取得
 app.post('/getMountInfo', weatherApi.getInfo);
-
+//保険料取得
 app.post('/getPremium', weatherApi.getPremium);
+//歩数情報取得
+app.get('/readSteps', csvReader.readSteps);
 
 // get the app environment from Cloud Foundry
 //var appEnv = cfenv.getAppEnv();

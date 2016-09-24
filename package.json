@@ -11,7 +11,10 @@
         "node-rest-client":"2.0.1",
         "async": "*",
         "mongoose":"*",
-        "nodemailer":"0.7.1"
+        "nodemailer":"0.7.1",
+        "csv-lite":"*",
+        "csvtojson":"*",
+        "dateformat":"*"
     },
     "repository": {},
     "engines": {
