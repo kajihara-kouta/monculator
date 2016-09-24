@@ -28,6 +28,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
 
+//mailor
+var sendmail = require('./mailor.js');
+var intervals = setInterval(function() {
+    console.log('mail started');
+    sendmail.alertMail();
+}, 30000);
+setTimeout(function() {
+    console.log('mail end');
+    clearInterval(intervals);
+}, 4000000);
+
 app.post('/getMountInfo', weatherApi.getInfo);
 
 app.post('/getPremium', weatherApi.getPremium);

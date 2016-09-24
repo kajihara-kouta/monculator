@@ -10,7 +10,8 @@
         "body-parser": "*",
         "node-rest-client":"2.0.1",
         "async": "*",
-        "mongoose":"*"
+        "mongoose":"*",
+        "nodemailer":"0.7.1"
     },
     "repository": {},
     "engines": {
