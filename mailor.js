@@ -17,7 +17,7 @@ pass: "kota0224"
 var message = {
 sender: 'kkjjhhrr0224@gmail.com',
 to: 'axszndddns@i.softbank.jp',
-subject: "montculatorよりALERTMAIL",
+subject: "【デモです】montculatorよりALERTMAIL",
 body: "安倍晋三さんが遭難した可能性があります。\n至急本人に連絡を取ってください。\n連絡が取れない場合は、最寄の警察まで連絡してください\nfrom montculatorより",
 };
 
