@@ -108,9 +108,9 @@ module.exports = {
         //結果
         var ret = [];
         //開始日
-        var startYmd = '2016-09-24';//req.body.startYmd;
+        var startYmd = '2016-10-02';//req.body.startYmd;
         //下山日
-        var endYmd = '2016-09-25';//req.body.endYmd;
+        var endYmd = '2016-10-04';//req.body.endYmd;
         //年齢
         var age = '50';//req.body.age;
         async.waterfall([

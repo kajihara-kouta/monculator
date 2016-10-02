@@ -29,15 +29,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 //mailer
-var sendmail = require('./mailor.js');
-var intervals = setInterval(function() {
-    console.log('mail started');
-    sendmail.alertMail();
-}, 30000);
-setTimeout(function() {
-    console.log('mail end');
-    clearInterval(intervals);
-}, 4000000);
+//var sendmail = require('./mailor.js');
+//var intervals = setInterval(function() {
+//    console.log('mail started');
+//    sendmail.alertMail();
+//}, 30000);
+//setTimeout(function() {
+//    console.log('mail end');
+//    clearInterval(intervals);
+//}, 4000000);
 
 //csv読み込み
 var csvReader = require('./csvreader.js');
