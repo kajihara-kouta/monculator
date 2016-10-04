@@ -86,5 +86,23 @@ module.exports = {
         }
         return totalScore / counter;
     },
+    /* 天気の名称を返却 */
+    getWeatherValue: function(weatherCode) {
+        var ret;
+        if (weatherCode == "01" || weatherCode == "02") {   //晴れ系
+            ret = 'sunny';
+        } else if (weatherCode == "02" || weatherCode == "04") {    //曇り系
+            ret = 'cloudy';
+        } else if (weatherCode == "09" || weatherCode == "10") {    //雨系
+            ret = 'rainy';
+        } else if (weatherCode == "11" || weatherCode == "13") {    //雷、雪
+            ret = 'thunder';
+        } else if (weatherCode == "50") {   //霧
+            ret = 'fog';
+        } else {
+            ret = '';
+        }
+        return ret;
+    }
 
 }

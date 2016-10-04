@@ -19,7 +19,7 @@ module.exports = {
             difficultLevel = 2;
         }
         //日額基準保険料
-        var basePremiumPerDay = 500;
+        var basePremiumPerDay = 200;
         //基準値
         var baseline = 10;
         //基準年齢

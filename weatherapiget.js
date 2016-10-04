@@ -8,6 +8,13 @@ var async = require('async');
 //common.js
 var common = require('./common.js');
 module.exports = {
+    /**
+     * 山の天気情報取得
+     * 現状：現在時刻から5日間の天気を取得する仕様とする
+     * @param mountainId(1:燕岳,2:槍ヶ岳,その他:東京), startYmd(yyyy-mm-dd), endYmd(yyyy-mm-dd), age
+     * @return {date:yyyy-mm-dd, weatherCode:XX, weatherName:XXXXX}の配列
+     *
+     */
     getInfo: function (req,res) {
         //APIのURL
         var WEATHER_BASE_URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
@@ -21,18 +28,23 @@ module.exports = {
         //返却用天気の配列（毎6時ごと）
         var resweatherArray = [];
         //TODO req parameterからとる
-        var mountainId = '1';//req.body.mountainId;
+        var mountainId = req.body.mountainId;
         //OpenWeatherAPI用
         var mountainCode = common.getMountainCd(mountainId);
         var url = WEATHER_BASE_URL + mountainCode + ',jp&APPID=' + APPID;
         //結果
         var ret = [];
         //開始日
-        var startYmd = '2016-09-24';//req.body.startYmd;
+        var startYmd = req.body.startYmd;
+        console.log('startYmd is');
+        console.log(req.body.startYmd);
+        console.log(req.body);
         //下山日
-        var endYmd = '2016-09-25';//req.body.endYmd;
+        var endYmd = req.body.endYmd;
+        console.log('endYmd is');
+        console.log(req.body.endYmd);
         //年齢
-        var age = '50';//req.body.age;
+        var age = req.body.age;
         async.waterfall([
             function(callback) {
                 //お天気APIを呼び出す
@@ -57,6 +69,7 @@ module.exports = {
                             var resweather = new Object();
                             resweather.date = dt_txt.substring(0,10);
                             resweather.weatherCode = weatherCode;
+                            resweather.weatherName = common.getWeatherValue(weatherCode);
                             resweatherArray.push(resweather);
                         }
                     }
@@ -88,6 +101,12 @@ module.exports = {
             console.log('series ok');
         });
     },
+    /**
+     * 保険料算出
+     * 開始年月日、終了年月日、年齢、登る山をもとに保険料を算出します
+     * @param mountainId(1:燕岳,2:槍ヶ岳,その他:東京), startYmd(yyyy-mm-dd), endYmd(yyyy-mm-dd), age
+     * @return {premium:xxxxx}
+     */
     getPremium: function(req,res) {
         //APIのURL
         var WEATHER_BASE_URL = 'http://api.openweathermap.org/data/2.5/forecast?q=';
@@ -101,18 +120,18 @@ module.exports = {
         //返却用天気の配列（毎6時ごと）
         var resweatherArray = [];
         //TODO req parameterからとる
-        var mountainId = '1';//req.body.mountainId;
+        var mountainId = req.body.mountainId;
         //OpenWeatherAPI用
         var mountainCode = common.getMountainCd(mountainId);
         var url = WEATHER_BASE_URL + mountainCode + ',jp&APPID=' + APPID;
         //結果
         var ret = [];
         //開始日
-        var startYmd = '2016-10-02';//req.body.startYmd;
+        var startYmd = req.body.startYmd;
         //下山日
-        var endYmd = '2016-10-04';//req.body.endYmd;
+        var endYmd = req.body.endYmd;
         //年齢
-        var age = '50';//req.body.age;
+        var age = req.body.age;
         async.waterfall([
             function(callback) {
                 //お天気APIを呼び出す
