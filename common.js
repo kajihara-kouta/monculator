@@ -70,7 +70,7 @@ module.exports = {
                 var weatherCode = object.weather[0].icon.substring(0,2);
                 if (weatherCode == "01" || weatherCode == "02") {   //晴れ系
                     tmpValue = 1;
-                } else if (weatherCode == "02" || weatherCode == "04") {    //曇り系
+                } else if (weatherCode == "03" || weatherCode == "04") {    //曇り系
                     tmpValue = 1.5;
                 } else if (weatherCode == "09" || weatherCode == "10") {    //雨系
                     tmpValue = 3;
@@ -91,11 +91,12 @@ module.exports = {
         var ret;
         if (weatherCode == "01" || weatherCode == "02") {   //晴れ系
             ret = 'sunny';
-        } else if (weatherCode == "02" || weatherCode == "04") {    //曇り系
+        } else if (weatherCode == "03" || weatherCode == "04") {    //曇り系
             ret = 'cloudy';
         } else if (weatherCode == "09" || weatherCode == "10") {    //雨系
             ret = 'rainy';
         } else if (weatherCode == "11" || weatherCode == "13") {    //雷、雪
+            //TODO 雪なのにカミナリになってる
             ret = 'thunder';
         } else if (weatherCode == "50") {   //霧
             ret = 'fog';
