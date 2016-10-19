@@ -1,23 +1,23 @@
 {
-    "name": "NodejsStarterApp",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "start": "node app.js"
-    },
-    "dependencies": {
-        "express": "4.13.x",
-        "body-parser": "*",
-        "node-rest-client":"2.0.1",
-        "async": "*",
-        "mongoose":"*",
-        "nodemailer":"0.7.1",
-        "csv-lite":"*",
-        "csvtojson":"*",
-        "dateformat":"*"
-    },
-    "repository": {},
-    "engines": {
-        "node": "4.x"
-    }
+  "name": "NodejsStarterApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "*",
+    "body-parser": "*",
+    "csv-lite": "*",
+    "csvtojson": "*",
+    "dateformat": "*",
+    "express": "4.13.x",
+    "mongoose": "^4.6.3",
+    "node-rest-client": "2.0.1",
+    "nodemailer": "0.7.1"
+  },
+  "repository": {},
+  "engines": {
+    "node": "4.x"
+  }
 }

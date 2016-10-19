@@ -1,16 +1,4 @@
-/*eslint-env node*/
-
-//------------------------------------------------------------------------------
-// node.js starter application for Bluemix
-//------------------------------------------------------------------------------
-
-// This application uses express as its web server
-// for more info, see: http://expressjs.com
 var express = require('express');
-
-// cfenv provides access to your Cloud Foundry environment
-// for more info, see: https://www.npmjs.com/package/cfenv
-//var cfenv = require('cfenv');
 
 //body-parser
 var bodyParser = require('body-parser');
@@ -19,6 +7,9 @@ var app = express();
 
 //天気API
 var weatherApi = require('./weatherapiget.js');
+
+//ユーザ操作
+var user = require('./routes/user.js');
 
 //body-parser
 app.use(bodyParser());
@@ -48,8 +39,6 @@ app.post('/getPremium', weatherApi.getPremium);
 //歩数情報取得
 app.get('/readSteps', csvReader.readSteps);
 
-// get the app environment from Cloud Foundry
-//var appEnv = cfenv.getAppEnv();
-
+app.use('/user', user);
 // start server on the specified port and binding host
 app.listen(9080);
