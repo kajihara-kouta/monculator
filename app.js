@@ -39,6 +39,6 @@ app.post('/getPremium', weatherApi.getPremium);
 //歩数情報取得
 app.get('/readSteps', csvReader.readSteps);
 
-app.use('/user', user);
+app.use('/apis/users', user);
 // start server on the specified port and binding host
 app.listen(9080);
