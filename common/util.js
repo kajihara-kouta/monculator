@@ -8,16 +8,22 @@ var emergencyContact = require('../models/emergencyContact.js');
 //collectionのセット
 mongoose.model('User',user);
 mongoose.model('EmergencyContact',emergencyContact);
+//DB接続
+var db = mongoose.createConnection(appconfig.mongodb.url);
 
 module.exports = {
     /* MongoDBへのコネクション取得 */
     getMongoConnection: function() {
-        var url = appconfig.mongodb.url;
-        var db = mongoose.createConnection(url);
-
         return db;
     },
     closeMongoConnection: function() {
         mongoose.disconnect();
+    },
+    editjsonfordb: function(reqvalue, key, targetjson) {
+        if(reqvalue != undefined) {
+            targetjson[key] = reqvalue;
+        } else {
+            return;
+        }
     }
 }

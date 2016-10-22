@@ -10,6 +10,8 @@ var weatherApi = require('./weatherapiget.js');
 
 //ユーザ操作
 var user = require('./routes/user.js');
+//緊急連絡先
+var emergencyContact = require('./routes/emergencyContact.js');
 
 //body-parser
 app.use(bodyParser());
@@ -40,5 +42,7 @@ app.post('/getPremium', weatherApi.getPremium);
 app.get('/readSteps', csvReader.readSteps);
 
 app.use('/apis/users', user);
+
+app.use('/apis/emergencyContact', emergencyContact);
 // start server on the specified port and binding host
 app.listen(9080);
