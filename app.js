@@ -12,6 +12,8 @@ var weatherApi = require('./weatherapiget.js');
 var user = require('./routes/user.js');
 //緊急連絡先
 var emergencyContact = require('./routes/emergencyContact.js');
+//登山計画
+var plan = require('./routes/plan.js');
 
 //body-parser
 app.use(bodyParser());
@@ -44,5 +46,7 @@ app.get('/readSteps', csvReader.readSteps);
 app.use('/apis/users', user);
 
 app.use('/apis/emergencyContact', emergencyContact);
+
+app.use('/apis/plan', plan);
 // start server on the specified port and binding host
 app.listen(9080);

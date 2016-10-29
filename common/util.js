@@ -4,10 +4,12 @@ var appconfig = require('../props/appconfig.json');
 //Schema
 var user = require('../models/user.js');
 var emergencyContact = require('../models/emergencyContact.js');
+var plan = require('../models/plan.js');
 
 //collectionのセット
 mongoose.model('User',user);
 mongoose.model('EmergencyContact',emergencyContact);
+mongoose.model('Plan', plan);
 //DB接続
 var db = mongoose.createConnection(appconfig.mongodb.url);
 
