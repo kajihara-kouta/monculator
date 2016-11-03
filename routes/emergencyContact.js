@@ -47,6 +47,7 @@ router.post('/insert', function(req,res,next) {
     emergencyContact.address = req.body.address;
     emergencyContact.telmain = req.body.telmain;
     emergencyContact.telsub = req.body.telsub;
+    emergencyContact.email = req.body.email;
     emergencyContact.save(function(err) {
         if (err) res.send({result:false, message:'insert failed'});
         else res.send({result: true, message:'insert ok'});
@@ -80,6 +81,7 @@ router.put('/update/:userid', function(req,res,next) {
     utils.editjsonfordb(req.body.address, 'address',target);
     utils.editjsonfordb(req.body.telmain, 'telmain', target);
     utils.editjsonfordb(req.body.telsub, 'telsub', target);
+    utils.editjsonfordb(req.body.email, 'email', target);
     EmergencyContact.update({userid: targetid}, target, function(err, result) {
         if (err) throw new Error(err);
         console.log(result);

@@ -8,7 +8,8 @@ var EmergencyContactSchema = new Schema({
     postalcd: String,
     address: String,
     telmain: String,
-    telsub: String
+    telsub: String,
+    email: String
 },{collection:'EmergencyContact'});
 
 module.exports = EmergencyContactSchema;
