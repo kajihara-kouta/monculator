@@ -9,6 +9,11 @@ router.get('/get/:userid', function(req,res,next) {
     var targetid = req.params.userid;
     EmergencyContact.findOne({userid:targetid}, function(err, result) {
         if (err) throw new Error(err);
+        var str = result.postalcd;
+        if(!str.match(/[^0-9]/g)) {
+            var convert = str.substring(0,3) + '-' + str.substring(3);
+            result.postalcd = convert;
+        }
         res.send(result);
     })
 });
@@ -16,6 +21,13 @@ router.get('/get/:userid', function(req,res,next) {
 //全件取得
 router.get('/get', function(req,res,next) {
     EmergencyContact.find({}, function(err, result) {
+        for (i in result) {
+            var str = result[i].postalcd;
+            if(!str.match(/[^0-9]/g)) {
+                var convert = str.substring(0,3) + '-' + str.substring(3);
+                result[i].postalcd = convert;
+            }
+        }
         console.log(result);
         res.send(result);
     })
@@ -23,6 +35,11 @@ router.get('/get', function(req,res,next) {
 
 //1件登録
 router.post('/insert', function(req,res,next) {
+    //郵便番号チェック
+    var postCode = req.body.postalcd;
+    if (!postCode.match(/^\d{3}-?\d{4}$/)) {
+        res.send({result:false, message:'postalcd invalid'});
+    }
     var emergencyContact = new EmergencyContact();
     emergencyContact.userid = req.body.userid;
     emergencyContact.emergencyname = req.body.emergencyname;
@@ -31,8 +48,8 @@ router.post('/insert', function(req,res,next) {
     emergencyContact.telmain = req.body.telmain;
     emergencyContact.telsub = req.body.telsub;
     emergencyContact.save(function(err) {
-        if (err) throw new Error(err);
-        else res.send('insert ok');
+        if (err) res.send({result:false, message:'insert failed'});
+        else res.send({result: true, message:'insert ok'});
     })
 });
 
@@ -45,7 +62,15 @@ router.delete('/delete/:userid', function(req,res,next) {
     });
 });
 
+//1件更新
 router.put('/update/:userid', function(req,res,next) {
+    //郵便番号チェック
+    var postCode = req.body.postalcd;
+    if (postCode != undefined) {
+        if (!postCode.match(/^\d{3}-?\d{4}$/)) {
+            res.send({result:false, message:'postalcd invalid'});
+        }
+    }
     //更新対象のユーザID取得
     var targetid = req.params.userid;
     //更新ターゲット
@@ -60,9 +85,9 @@ router.put('/update/:userid', function(req,res,next) {
         console.log(result);
         //更新対象がない、もしくは更新内容がない場合
         if (result.nModified == 0) {
-            res.send({msg: 'no update'});
+            res.send({result: false, message : 'no update'});
         } else {
-            res.send({msg: 'update ok'});
+            res.send({result: true, message : 'update ok'});
         }
     });
 });
