@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('../common/util.js');
 var db = utils.getMongoConnection();
+var dateformat = require('dateformat');
 
 var Plan = db.model('Plan');
 
@@ -11,6 +12,10 @@ router.get('/get/:_id', function(req,res,next) {
     var targetid = req.params._id;
     Plan.findOne({_id:targetid}, function(err,result) {
         if (err) throw new Error(err);
+        var tmpfromdate = result.fromdate;
+        result.fromdate = editISODate(tmpfromdate);
+        var tmptodate = result.todate;
+        result.todate = editISODate(tmptodate);
         res.send(result);
     });
 });
@@ -20,8 +25,28 @@ router.get('/get/user/:userid', function(req,res,next) {
     var targetid = req.params.userid;
     Plan.find({userid:targetid}, function(err, result) {
         if (err) throw new Error(err);
+        for (i in result) {
+            var tmpfromdate = result[i].fromdate;
+            result[i].fromdate = editISODate(tmpfromdate);
+            var tmptodate = result[i].todate;
+            result[i].todate = editISODate(tmptodate);
+        }
         res.send(result);
     })
+});
+
+//全件取得
+router.get('/get', function(req,res,next) {
+    Plan.find({}, function(err, result) {
+        if (err) throw new Error(err);
+        for (i in result) {
+            var tmpfromdate = result[i].fromdate;
+            result[i].fromdate = editISODate(tmpfromdate);
+            var tmptodate = result[i].todate;
+            result[i].todate = editISODate(tmptodate);
+        }
+        res.send(result);
+    });
 });
 
 //プラン情報登録
@@ -102,6 +127,7 @@ router.put('/update/:_id',function(req,res,next) {
     utils.editjsonfordb(req.body.foods, 'foods', target);
     utils.editjsonfordb(req.body.remark, 'remark', target);
 
+
 });
 
 //YYYY-MM-DDをDate型に変換します
@@ -109,6 +135,20 @@ function editDate(param) {
     var result;
     (param != undefined)? result = new Date(param + ' 00:00:00'):result =  undefined;
     return result;
+}
+
+//ISODateから日本時間の年月日(YYYY-MM-DD)に変換します
+function editISODate(val) {
+    //世界標準時＋９時間
+    var valMilliSec = new Date(val).getTime() + 9*60*60*1000;
+    var jptime = new Date(valMilliSec);
+    var year = jptime.getFullYear();
+    var month = jptime.getMonth() + 1;
+    month = (month <10) ? '0' + month : month;
+    var day = jptime.getDate();
+    day = (day < 10) ? '0'+day : day;
+    var ret = year + '-' + month + '-' + day;
+    return ret;
 }
 
 module.exports = router;
