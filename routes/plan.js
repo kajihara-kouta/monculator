@@ -130,10 +130,10 @@ router.put('/update/:_id',function(req,res,next) {
 
 });
 
-//YYYY-MM-DDをDate型に変換します
+//YYYY-MM-DD HH:MM:SSをDate型に変換します
 function editDate(param) {
     var result;
-    (param != undefined)? result = new Date(param + ' 00:00:00'):result =  undefined;
+    (param != undefined)? result = new Date(param):result =  undefined;
     return result;
 }
 
