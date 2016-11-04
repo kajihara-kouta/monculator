@@ -1,12 +1,12 @@
 function planBtnFunc() {
     var reqJson = {};
-    reqJson['userid'] = 'barbar';
-    reqJson['planname'] = '山登りその１';
+    reqJson['userid'] = 'fugafuga';
+    reqJson['planname'] = '山登りその2';
     reqJson['parties'] = {partyid:['barber']};
-    reqJson['fromdate'] = '2016-10-21';
-    reqJson['todate'] = '2016-10-22';
-    reqJson['mountain'] = 'yarigadake';
-    reqJson['route'] = 'yarigadake-easy';
+    reqJson['fromdate'] = '2016-11-01';
+    reqJson['todate'] = '2016-11-02';
+    reqJson['mountain'] = 'tsubakurodake';
+    reqJson['route'] = 'tsubakurodake-hard';
     var tempEquipments = [];
     tempEquipments.push({name:'ピッケル', quantity:2});
     tempEquipments.push({name:'その他装備', quantity:2});
@@ -26,3 +26,4 @@ function planBtnFunc() {
         console.log(data);
         }});
 };
+
