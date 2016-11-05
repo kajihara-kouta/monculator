@@ -23,6 +23,8 @@ app.controller('planCtrl', function($scope, $http, $state) {
         url:'/apis/plan/get',
     }).success(function(data, status, headers, config){
         for (i in data) {
+            var count = data[i].parties.length + 1;
+            data[i]['partyCount'] = count;
             var tmpfromdate = data[i].fromdate.substring(0,10);
             data[i].fromdate = tmpfromdate;
             var tmptodate = data[i].todate.substring(0,10);

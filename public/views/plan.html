@@ -10,6 +10,7 @@
                 <tr>
                     <th>状況</th>
                     <th>ユーザー</th>
+                    <th>人数</th>
                     <th>登山開始日</th>
                     <th>下山予定日</th>
                     <th>備考</th>
@@ -21,11 +22,12 @@
                     <tr ng-repeat="plan in plans">
                         <td class="col-xs-1">{{plan.status}}</td>
                         <td class="col-xs-1">{{plan.userid}}</td>
+                        <td class="col-xs-1">{{plan.partyCount}}</td>
                         <td class="col-xs-2">{{plan.fromdate}}</td>
                         <td class="col-xs-2">{{plan.todate}}</td>
-                        <td class="col-xs-4">{{plan.remark}}</td>
+                        <td class="col-xs-3">{{plan.remark}}</td>
                         <td class="col-xs-2">
-                            <button class="btn"><i class="glyphicon glyphicon-th-list"></i>詳細</button>
+                            <button class="btn btn-success"><i class="glyphicon glyphicon-th-list"></i>詳細</button>
                         </td>
                     </tr>
                 </tbody>
