@@ -86,10 +86,35 @@ router.post('/insert', function(req,res,next) {
     console.log(plan.foods);
     plan.drink = req.body.drink;
     plan.remark = req.body.remark;
+    //TODO 保険料計算対応後置換する
+    /* START */
+    var premiumresData = {};
+    //合計保険料
+    var totalPremium = 0;
+    //代表者保険料
+    premiumresData['premium'] = 300;
+    //合計保険料に代表者保険料を追加
+    totalPremium = totalPremium + 300;
+    //パーティ分保険料
+    var partyPremiumArray = [];
+    for (i in parties) {
+        var tmpdata = {};
+        tmpdata['partyid'] = parties[i].partyid;
+        tmpdata['premium'] = 300;
+        totalPremium = totalPremium + 300;
+        partyPremiumArray.push(tmpdata);
+    }
+    premiumresData['partypremium'] = partyPremiumArray;
+    premiumresData['totalpremium'] = totalPremium;
+    /* END */
     plan.save(function(err) {
         if (err) res.send({result: false, message:'insert failed'});
         else
-            res.send({result: false, message: 'insert ok', _id: plan._id});
+            premiumresData['result'] = true;
+            premiumresData['message'] = 'insert ok';
+            premiumresData['_id'] = plan._id;
+            console.log(premiumresData);
+            res.send(premiumresData);
     });
 });
 
