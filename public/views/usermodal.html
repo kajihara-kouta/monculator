@@ -1,0 +1,65 @@
+<div style="padding:10px;">
+    <div>
+        <h3>ユーザー情報</h3>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">ユーザーID</label>
+        <div class="col-xs-3">{{userid}}</div>
+        <label class="col-xs-3">ユーザー名</label>
+        <div class="col-xs-3">{{name}}</div>
+    </div>
+
+    <div class="row">
+        <label class="col-xs-3">性別</label>
+        <div class="col-xs-3">{{sex}}</div>
+        <label class="col-xs-3">生年月日</label>
+        <div class="col-xs-3">{{birthymd}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">血液型</label>
+        <div class="col-xs-3">{{bloodtype}}</div>
+        <label class="col-xs-3">Rh型</label>
+        <div class="col-xs-3">{{rhtype}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">郵便番号</label>
+        <div class="col-xs-3">{{postalcd}}</div>
+        <label class="col-xs-3">電話番号</label>
+        <div class="col-xs-3">{{tel}}</div>
+
+    </div>
+    <div class="row">
+        <label class="col-xs-3">住所</label>
+        <div class="col-xs-9">{{address}}</div>
+    </div>
+    <div>
+        <h3>緊急連絡先情報</h3>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">連絡先氏名</label>
+        <div class="col-xs-9">{{emergencyContact.emergencyname}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">電話番号(昼)</label>
+        <div class="col-xs-3">{{emergencyContact.telmain}}</div>
+        <label class="col-xs-3">電話番号(夜)</label>
+        <div class="col-xs-3">{{emergencyContact.telsub}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">メールアドレス</label>
+        <div class="col-xs-9">{{emergencyContact.email}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">郵便番号</label>
+        <div class="col-xs-9">{{emergencyContact.postalcd}}</div>
+    </div>
+    <div class="row">
+        <label class="col-xs-3">住所</label>
+        <div class="col-xs-9">{{emergencyContact.address}}</div>
+    </div>
+    <div class="row" style="padding-right:30px;">
+        <div class="pull-right">
+            <button class="btn btn-success" ng-click="closeBtn();"><i class="fa fa-times-circle-o" aria-hidden="true"></i><span style="padding-left:5px;">閉じる</span></button>
+        </div>
+    </div>
+</div>
