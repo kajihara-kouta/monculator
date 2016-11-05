@@ -87,8 +87,9 @@ router.post('/insert', function(req,res,next) {
     plan.drink = req.body.drink;
     plan.remark = req.body.remark;
     plan.save(function(err) {
-        if (err) throw new Error(err);
-        else res.send('insert ok');
+        if (err) res.send({result: false, message:'insert failed'});
+        else
+            res.send({result: false, message: 'insert ok', _id: plan._id});
     });
 });
 

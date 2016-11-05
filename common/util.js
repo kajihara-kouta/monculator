@@ -29,5 +29,20 @@ module.exports = {
         } else {
             return;
         }
+    },
+    getMountainsAll: function() {
+        return appconfig.mountains;
+    },
+    getMountainByName: function(mountainName) {
+        var result = appconfig.mountains.filter(function(item, index) {
+            if (item.mountainName == mountainName) return true;
+        });
+        return (result.length ==0)? undefined : result[0];
+    },
+    getMountainById: function(mountainId) {
+        var result = appconfig.mountains.filter(function(item, index) {
+            if (item.mountainId == mountainId) return true;
+        });
+        return (result.length ==0)? undefined : result[0];
     }
 }

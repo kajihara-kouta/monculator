@@ -54,7 +54,7 @@ router.post('/insert', function(req,res,next) {
     user.rhtype = req.body.rhtype;
     user.save(function(err) {
         if (err) res.send({result:false, message:'insert failed'});
-        else res.send({result: true, message:'insert ok'});
+        else res.send({result: true, message:'insert ok', _id:user._id});
     })
 });
 

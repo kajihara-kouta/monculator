@@ -50,7 +50,7 @@ router.post('/insert', function(req,res,next) {
     emergencyContact.email = req.body.email;
     emergencyContact.save(function(err) {
         if (err) res.send({result:false, message:'insert failed'});
-        else res.send({result: true, message:'insert ok'});
+        else res.send({result: true, message:'insert ok', _id:emergencyContact._id});
     })
 });
 

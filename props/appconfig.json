@@ -1,5 +1,30 @@
 {
     "mongodb": {
         "url": "mongodb://127.0.0.1:27017/montculator"
-    }
+    },
+    "mountains": [
+        {"mountainName" : "利尻岳", "mountainId" : 1 },
+        {"mountainName" : "羅臼岳", "mountainId" : 2 },
+        {"mountainName" : "斜里岳", "mountainId" : 3 },
+        {"mountainName" : "阿寒岳", "mountainId" : 4 },
+        {"mountainName" : "大雪山", "mountainId" : 5 },
+        {"mountainName" : "トムラウシ山", "mountainId" : 6 },
+        {"mountainName" : "十勝岳", "mountainId" : 7 },
+        {"mountainName" : "帳尻岳", "mountainId" : 8 },
+        {"mountainName" : "後方羊蹄山", "mountainId" : 9 },
+        {"mountainName" : "岩木山", "mountainId" : 10 },
+        {"mountainName" : "鳥海山", "mountainId" : 15 },
+        {"mountainName" : "吾妻山", "mountainId" : 20 },
+        {"mountainName" : "八甲田山", "mountainId" : 11 },
+        {"mountainName" : "月山", "mountainId" : 16 },
+        {"mountainName" : "安達太良山", "mountainId" : 21 },
+        {"mountainName" : "八幡平", "mountainId" : 12 },
+        {"mountainName" : "朝日岳", "mountainId" : 17 },
+        {"mountainName" : "磐梯山", "mountainId" : 22 },
+        {"mountainName" : "岩手山", "mountainId" : 13 },
+        {"mountainName" : "蔵王山", "mountainId" : 18 },
+        {"mountainName" : "会津駒ヶ岳", "mountainId" : 23 },
+        {"mountainName" : "早池峰山", "mountainId" : 14 },
+        {"mountainName" : "飯豊山", "mountainId" : 19 }
+    ]
 }

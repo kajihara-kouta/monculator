@@ -16,6 +16,8 @@ var emergencyContact = require('./routes/emergencyContact.js');
 var plan = require('./routes/plan.js');
 //保険料
 var contract = require('./routes/contract.js');
+//山情報
+var mountain = require('./routes/mountain.js');
 
 //body-parser
 app.use(bodyParser());
@@ -52,5 +54,7 @@ app.use('/apis/emergencyContact', emergencyContact);
 app.use('/apis/plan', plan);
 
 app.use('/apis/contract',contract);
+
+app.use('/apis/mountain', mountain);
 // start server on the specified port and binding host
 app.listen(9080);

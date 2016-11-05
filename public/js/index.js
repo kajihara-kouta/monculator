@@ -1,10 +1,10 @@
 function planBtnFunc() {
     var reqJson = {};
-    reqJson['userid'] = 'fugafuga';
-    reqJson['planname'] = '山登りその2';
-    reqJson['parties'] = {partyid:['barber']};
-    reqJson['fromdate'] = '2016-11-01';
-    reqJson['todate'] = '2016-11-02';
+    reqJson['userid'] = 'hogehoge';
+    reqJson['planname'] = '山登りその3';
+    reqJson['parties'] = {partyid:['fugafuga', 'barabar']};
+    reqJson['fromdate'] = '2016-11-02';
+    reqJson['todate'] = '2016-11-03';
     reqJson['mountain'] = 'tsubakurodake';
     reqJson['route'] = 'tsubakurodake-hard';
     var tempEquipments = [];
@@ -16,7 +16,7 @@ function planBtnFunc() {
     tempfoods.push({foodtype:'lunch', quantity:2});
     reqJson['foods'] = tempfoods;
     reqJson['remark'] = 'とくになし';
-    reqJson['drink'] = 1.5;
+    reqJson['drink'] = 3;
 
     $.ajax({
         type:'POST',
