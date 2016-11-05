@@ -1,16 +1,7 @@
 <div ng-controller="planCtrl as plan">
    <div>
-       <select class="form-control" name="selectMountain" id="selectMountain" style="width:300px;">
+       <select class="form-control" style="width:300px;" ng-model="mountainId" ng-options="mountain.mountainId as mountain.mountainName for mountain in mountains" name="selectMountain" id="selectMountain">
            <option value="">選択してください</option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
-           <option value=""></option>
        </select>
    </div>
     <div class="table-responsive">
@@ -34,7 +25,7 @@
                         <td class="col-xs-2">{{plan.todate}}</td>
                         <td class="col-xs-4">{{plan.remark}}</td>
                         <td class="col-xs-2">
-                            <button><i class="glyphicon plyphicon-th-list"></i>詳細</button>
+                            <button class="btn"><i class="glyphicon glyphicon-th-list"></i>詳細</button>
                         </td>
                     </tr>
                 </tbody>

@@ -14,6 +14,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 app.controller('planCtrl', function($scope, $http, $state) {
     $http({
         method: 'GET',
+        url: '/apis/mountain/get',
+    }).success(function (data, status, headers, config) {
+        $scope.mountains = data;
+    });
+    $http({
+        method: 'GET',
         url:'/apis/plan/get',
     }).success(function(data, status, headers, config){
         for (i in data) {
