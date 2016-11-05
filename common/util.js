@@ -20,9 +20,11 @@ module.exports = {
     getMongoConnection: function() {
         return db;
     },
+    /* MongoDBへのコネクション切断 */
     closeMongoConnection: function() {
         mongoose.disconnect();
     },
+    /* MongoDB保存用にJSONデータを整形 */
     editjsonfordb: function(reqvalue, key, targetjson) {
         if(reqvalue != undefined) {
             targetjson[key] = reqvalue;
@@ -30,19 +32,30 @@ module.exports = {
             return;
         }
     },
+    /* 山の情報を取得 */
     getMountainsAll: function() {
         return appconfig.mountains;
     },
+    /* 山の名前から情報を取得 */
     getMountainByName: function(mountainName) {
         var result = appconfig.mountains.filter(function(item, index) {
             if (item.mountainName == mountainName) return true;
         });
         return (result.length ==0)? undefined : result[0];
     },
+    /* IDから山の情報を取得 */
     getMountainById: function(mountainId) {
         var result = appconfig.mountains.filter(function(item, index) {
             if (item.mountainId == mountainId) return true;
         });
         return (result.length ==0)? undefined : result[0];
+    },
+    /* 保険料計算のパラメーターを全件取得 */
+    getPremiumParameter: function() {
+        return appconfig.premiumparameter;
+    },
+    /* 指定したキーの保険料計算パラメーターを取得 */
+    getPremiumParameterByKey: function(key) {
+        return appconfig.premiumparameter[key];
     }
 }
