@@ -20,5 +20,9 @@ module.exports = {
         //保険料
         var premium = basisPremium * (period/basisInsPeriod) * agerate * difficulty;
         return premium;
+    },
+    calcAge: function(birthymd) {
+        var age = Math.floor((new Date().getTime() - new Date(birthymd + ' 00:00:00').getTime())/(1000*60*60*24));
+        return age;
     }
 }

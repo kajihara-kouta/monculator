@@ -3,8 +3,11 @@ var router = express.Router();
 var utils = require('../common/util.js');
 var db = utils.getMongoConnection();
 var dateformat = require('dateformat');
+var calc = require('../common/calc.js');
+var async = require('async');
 
 var Plan = db.model('Plan');
+var User = db.model('User');
 
 //プラン情報1件取得
 router.get('/get/:_id', function(req,res,next) {
@@ -87,34 +90,54 @@ router.post('/insert', function(req,res,next) {
     plan.drink = req.body.drink;
     plan.remark = req.body.remark;
     //TODO 保険料計算対応後置換する
-    /* START */
-    var premiumresData = {};
     //合計保険料
     var totalPremium = 0;
-    //代表者保険料
-    premiumresData['premium'] = 300;
-    //合計保険料に代表者保険料を追加
-    totalPremium = totalPremium + 300;
+    //レスポンス用データ
+    var premiumresData = {};
     //パーティ分保険料
     var partyPremiumArray = [];
-    for (i in parties) {
-        var tmpdata = {};
-        tmpdata['partyid'] = parties[i].partyid;
-        tmpdata['premium'] = 300;
-        totalPremium = totalPremium + 300;
-        partyPremiumArray.push(tmpdata);
-    }
-    premiumresData['partypremium'] = partyPremiumArray;
-    premiumresData['totalpremium'] = totalPremium;
-    /* END */
-    plan.save(function(err) {
-        if (err) res.send({result: false, message:'insert failed'});
-        else
-            premiumresData['result'] = true;
-            premiumresData['message'] = 'insert ok';
-            premiumresData['_id'] = plan._id;
-            console.log(premiumresData);
-            res.send(premiumresData);
+    //順次処理
+    async.waterfall([
+        function(callback) {
+            //ユーザ情報を取得する
+            User.findOne({userid:req.body.userid}, function(err, user) {
+                var age = calc.calcAge(user.birthymd);
+                var premium = calc.calcPremium(req.body.fromdate, req.body.todate, age, req.body.mountain);
+                premiumresData['premium'] = premium;
+                totalPremium = totalPremium + premium;
+                callback(null, premium);
+            });
+        }, function(arg0, callback) {
+            async.mapSeries(parties, function(data, next) {
+                User.findOne({userid:data.partyid}, function(err, user) {
+
+                    var partyage = calc.calcAge(user.birthymd);
+                    var partypremium = calc.calcPremium(req.body.fromdate, req.body.todate, partyage, req.body.mountain);
+                    //合計保険料
+                    totalPremium = totalPremium + partypremium;
+                    //パーティ用保険料をセット
+                    var tmpdata = {};
+                    tmpdata['partyid'] = data.partyid;
+                    tmpdata['premium'] = partypremium;
+                    partyPremiumArray.push(tmpdata);
+                    next(null, user);
+                });
+            }, function(err, results) {
+                callback(null, results);
+            });
+        },
+    ],function(err, arg0) {
+        premiumresData['partypremium'] = partyPremiumArray;
+        premiumresData['totalpremium'] = totalPremium;
+        plan.save(function(err) {
+            if (err) res.send({result: false, message:'insert failed'});
+            else
+                premiumresData['result'] = true;
+                premiumresData['message'] = 'insert ok';
+                premiumresData['_id'] = plan._id;
+                console.log(premiumresData);
+                res.send(premiumresData);
+        });
     });
 });
 
