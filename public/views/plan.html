@@ -1,11 +1,14 @@
-<div ng-controller="planCtrl as plan">
-   <div>
+<div ng-controller="planCtrl as plan" style="height:100vh;">
+   <div class="form-inline">
+      <div class="form-group">
+       <label class="" for="selectMountain" style="padding-right:20px;">山を選択</label>
        <select class="form-control" style="width:300px;" ng-model="mountainId" ng-options="mountain.mountainId as mountain.mountainName for mountain in mountains" name="selectMountain" id="selectMountain">
-           <option value="">選択してください</option>
+           <option value="">全ての山の情報を表示</option>
        </select>
+       </div>
    </div>
-    <div class="table-responsive">
-        <table class="table">
+    <div class="table-responsive" style="height:100vh;background:#ffffff;margin-top:10px;">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>状況</th>

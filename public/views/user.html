@@ -1,3 +1,26 @@
-<div ng-controller="userCtrl as user">
-
+<div ng-controller="userCtrl as user" style="height:100vh;background:#ffffff;">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ユーザーID</th>
+                    <th>ユーザー名</th>
+                    <th>性別</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <div class="row">
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td class="col-xs-2">{{user.userid}}</td>
+                        <td class="col-xs-3">{{user.name}}</td>
+                        <td class="col-xs-2">{{user.sex}}</td>
+                        <td class="col-xs-2">
+                            <button class="btn btn-success"><i class="fa fa-address-card-o" aria-hidden="true"></i><span style="padding-left:5px;">詳細</span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </div>
+        </table>
+    </div>
 </div>

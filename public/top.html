@@ -8,6 +8,7 @@
     <script src="lib/js/main.min.js"></script>
 -->
     <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -18,22 +19,27 @@
     <script src="js/montculator.js"></script>
     <title>MontCulator Dashboard</title>
 </head>
-<body ng-app="montculatorApp">
+<body ng-app="montculatorApp" ng-controller="topCtrl as top">
 
     <div class="col-xs-2" style="background:#30426a; height:100vh">
-        <div style="color:#ffffff;font-size:20px; height:45px;padding-top:5px;">
+        <div class="row">
+           <div style="background:#2d3e63;color:#ffffff;font-size:20px; height:60px;padding-top:5px;padding-left:15px;">
             <span>MontCulator</span>
         </div>
+        </div>
         <ul class="nav nav-pills nav-stacked">
-            <li style="padding-left:20px;padding-bottom:20px;font-size:16px;color:#ffffff;">ユーザ一覧</li>
-            <li style="padding-left:20px;font-size:16px;color:#ffffff;">登山状況</li>
+            <li style="padding-left:20px;padding-bottom:20px;font-size:16px;color:#ffffff;"><a href="#/users">ユーザ一覧</a></li>
+            <li style="padding-left:20px;font-size:16px;color:#ffffff;"><a href="#/plans">登山状況</a></li>
             <li></li>
             <li></li>
         </ul>
     </div>
     <div class="col-xs-10">
-        <div style="height:45px;font-size:20px;padding-top:5px;"><span>ダッシュボード</span></div>
-        <div ui-view></div>
+        <div style="height:60px;font-size:20px;padding-top:5px;">
+            <span>{{vm.paneltitle}}</span>
+            <div class="pull-right"><i class="fa fa-user-circle fa-2x"></i></div>
+        </div>
+        <div style="background:#f3f3f3; height:100vh; padding-left:15px;padding-right:15px;padding-top:10px;" class="row" ui-view></div>
     </div>
 
 <!--
