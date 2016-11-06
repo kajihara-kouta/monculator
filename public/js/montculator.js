@@ -17,7 +17,8 @@ app.controller('topCtrl', function($scope, $http, $state) {
     $scope.vm = vm;
 });
 
-app.controller('planCtrl', function($scope, $http, $state) {
+//登山計画書一覧コントローラー
+app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
     $scope.$parent.vm.paneltitle = '登山計画書一覧';
     $http({
         method: 'GET',
@@ -39,9 +40,79 @@ app.controller('planCtrl', function($scope, $http, $state) {
         }
 
         $scope.plans = data;
-    })
+    });
+
+    $scope.showModal = function(index) {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/planmodal.html',
+            controller: 'planModalCtrl',
+            scope: $scope,
+            resolve: {
+                params: function() {
+                    return {
+                        fromdate: $scope.plans[index].fromdate,
+                        todate: $scope.plans[index].todate,
+                        mountainid: $scope.plans[index].mountain,
+                        user: $scope.plans[index].userid,
+                        parties:$scope.plans[index].parties,
+                        equipments: $scope.plans[index].equipments,
+                        foods: $scope.plans[index].foods
+                    }
+                }
+            }
+        });
+    }
 });
 
+//登山計画書詳細モーダルコントローラー
+app.controller('planModalCtrl', function($scope, $http, $uibModalInstance, params) {
+    console.log(params.parties);
+    //装備
+    $scope.equipments = params.equipments;
+    //食料
+    $scope.foods = params.foods;
+    //入山日、下山日
+    $scope.fromdate = params.fromdate;
+    $scope.todate = params.todate;
+    //閉じるボタン
+    $scope.closeBtn = function() {
+        $uibModalInstance.close('done');
+    }
+    //山の名称取得
+    $http({
+        method: 'GET',
+        url: '/apis/mountain/get/byid/' + params.mountainid
+    }).success(function(data, status, headers, config) {
+        $scope.mountainname = data.mountainName;
+    });
+    //代表者ユーザーID
+    var userid = params.user;
+    //代表者情報取得
+    $http({
+        method: 'GET',
+        url: '/apis/users/get/' + userid,
+
+    }).success(function(data, status, headers, config) {
+        $scope.username = data.name;
+    });
+    //パーティ情報取得
+    $http({
+        method: 'POST',
+        url: '/apis/users/get/specifyusers',
+        headers: {'Content-Type': 'application/json'},
+        data: {parties : params.parties}
+    }).success(function(data, status, headers, config) {
+        console.log(data);
+        var setdata = '';
+        for (i in data) {
+            var partyname = data[i].name;
+            setdata = setdata + partyname + ',';
+        }
+        $scope.partiesname = setdata.substr(0, setdata.length - 1);
+    });
+})
+
+//ユーザー情報一覧コントローラー
 app.controller('userCtrl', function($scope, $http, $state, $uibModal) {
     $scope.$parent.vm.paneltitle = 'ユーザー情報一覧';
     $http({
@@ -98,7 +169,7 @@ app.controller('userCtrl', function($scope, $http, $state, $uibModal) {
 
     };
 });
-
+//ユーザー情報詳細コントローラー
 app.controller('userModalCtrl', function($scope, $http, $uibModalInstance, params) {
 
     $scope.userid = params.userid;

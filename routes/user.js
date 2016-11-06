@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var async = require('async');
 var utils = require('../common/util.js');
 var db = utils.getMongoConnection();
 var User = db.model('User');
@@ -18,6 +19,25 @@ router.get('/get/:userid', function(req,res,next) {
         }
         console.log(user.postalcd);
         res.send(user);
+    });
+});
+
+//ユーザー指定複数件取得
+router.post('/get/specifyusers', function(req, res, next) {
+    var parties = req.body.parties;
+    console.log(parties);
+    var resData =[];
+    async.mapSeries(parties, function(data, next) {
+        console.log(data.partyid);
+        User.findOne({userid: data.partyid}, function(err, result) {
+            if (err) throw new Error(err);
+            console.log(result);
+            resData.push(result);
+            next(null, result);
+        });
+    }, function(err, results) {
+        console.log(results);
+        res.send(resData);
     });
 });
 

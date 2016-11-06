@@ -1,0 +1,84 @@
+<div style="padding:10px;">
+    <div>
+        <h3>登山計画書</h3>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            山の情報
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <h4 class="col-xs-12">{{mountainname}}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            基本情報
+        </div>
+        <div class="panel-body">
+
+           <div class="row">
+               <label class="col-xs-3">入山日</label>
+               <div class="col-xs-3">{{fromdate}}</div>
+               <label class="col-xs-3">下山日</label>
+               <div class="col-xs-3">{{todate}}</div>
+           </div>
+            <div class="row">
+                <label class="col-xs-3">代表者</label>
+                <div class="col-xs-9">{{username}}</div>
+            </div>
+            <div class="row">
+                <label class="col-xs-3">パーティ</label>
+                <div class="col-xs-9">{{partiesname}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            装備について
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>装備品目</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="equipment in equipments">
+                        <td class="col-xs-6">{{equipment.name}}</td>
+                        <td class="col-xs-6">{{equipment.quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            食料の情報
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>食料品目</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="food in foods">
+                        <td class="col-xs-6">{{food.foodtype}}</td>
+                        <td class="col-xs-6">{{food.quantity}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" style="padding-right:30px;">
+        <div class="pull-right">
+            <button class="btn btn-success" ng-click="closeBtn();"><i class="fa fa-times-circle-o" aria-hidden="true"></i><span style="padding-left:5px;">閉じる</span></button>
+        </div>
+    </div>
+</div>
