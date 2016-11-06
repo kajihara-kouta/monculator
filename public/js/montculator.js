@@ -11,10 +11,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
 });
 
+//親コントローラー
 app.controller('topCtrl', function($scope, $http, $state) {
+    $scope.menu = {
+        userinfo: 1,
+        mountainstatus: 2
+    };
+    $scope.currentMenu = $scope.menu.mountainstatus;
     var vm = {};
     vm['paneltitle'] = 'ダッシュボード';
     $scope.vm = vm;
+    $scope.changeMenu = function(id) {
+        this.currentMenu = id;
+    };
 });
 
 //登山計画書一覧コントローラー

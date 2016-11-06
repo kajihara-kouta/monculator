@@ -1,86 +1,87 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="UTF-8">
-<!--
-    <link rel="stylesheet" href="lib/css/main.min.css">
-    <script src="lib/js/main.min.js"></script>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <!--
+<link rel="stylesheet" href="lib/css/main.min.css">
+<script src="lib/js/main.min.js"></script>
 -->
-    <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="js/montculator.js"></script>
-    <title>MontCulator Dashboard</title>
-</head>
-<body ng-app="montculatorApp" ng-controller="topCtrl as top">
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="./bower_components/font-awesome/css/font-awesome.min.css">
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="js/montculator.js"></script>
+        <title>MontCulator Dashboard</title>
+    </head>
+    <body ng-app="montculatorApp" ng-controller="topCtrl as top">
 
-    <div class="col-xs-2" style="background:#30426a; height:100vh">
-        <div class="row">
-           <div style="background:#2d3e63;color:#ffffff;font-size:20px; height:60px;padding-top:5px;padding-left:15px;">
-            <span>MontCulator</span>
-        </div>
-        </div>
-        <ul class="nav nav-pills nav-stacked">
-            <li style="padding-left:20px;padding-bottom:20px;font-size:16px;color:#ffffff;"><a href="#/users">ユーザ一覧</a></li>
-            <li style="padding-left:20px;font-size:16px;color:#ffffff;"><a href="#/plans">登山状況</a></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>
-    <div class="col-xs-10">
-        <div style="height:60px;font-size:20px;padding-top:5px;">
-            <span>{{vm.paneltitle}}</span>
-            <div class="pull-right"><i class="fa fa-user-circle fa-2x"></i></div>
-        </div>
-        <div style="background:#f3f3f3; height:100vh; padding-left:15px;padding-right:15px;padding-top:10px;" class="row" ui-view></div>
-    </div>
-
-<!--
-    <div id="page-wrapper" class="open">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar">
-                <li class="sidebar-main">
-                    <a href="">
-                        MontCulator
-                        <span class="menu-icon glyphicon glyphicon-transfer"></span>
-                    </a>
-                </li>
-                <li class="sidebar-title">
-                    Menu
-                </li>
-                <li class="sidebar-list">
-                    <a href="">Users</a>
-                </li>
-                <li class="sidebar-list">
-                    <a href="">Mountains</a>
-                </li>
-            </ul>
-        </div>
-        <div id="content-wrapper">
-            <div class="page-content">
-                <div class="row header">
-                    <div class="col-xs-12">
-                        <div></div>
-                        <div class="meta">
-                            <div class="page">
-                                Dashboard
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ng-scope" ui-view>
-
+        <div class="col-xs-2" style="background:#30426a; height:100vh">
+            <div class="row">
+                <div style="background:#2d3e63;color:#ffffff;font-size:20px; height:60px;padding-top:5px;padding-left:15px;">
+                    <span>MontCulator</span>
                 </div>
             </div>
+            <div class="row" style="padding-top:10px;">
+                <ul class="nav nav-pills nav-stacked">
+                    <li style="padding-left:20px;padding-bottom:20px;font-size:16px;color:#ffffff;"><a href="#/users" style="color:#ffffff;" id="userinfolink" ng-class="{'btn-primary' : currentMenu == menu.userinfo , 'active': currentMenu == menu.userinfo}" ng-click="changeMenu(menu.userinfo);">ユーザー情報一覧</a></li>
+                    <li style="padding-left:20px;font-size:16px;color:#ffffff;"><a href="#/plans" id="mountainstatus" ng-class="{'btn-primary' : currentMenu == menu.mountainstatus, 'active': currentMenu == menu.mountainstatus}" ng-click="changeMenu(menu.mountainstatus);" style="color:#ffffff;">登山状況</a></li>
+                </ul>
+            </div>
+
         </div>
-    </div>
+        <div class="col-xs-10">
+            <div style="height:60px;font-size:20px;padding-top:5px;">
+                <span>{{vm.paneltitle}}</span>
+                <div class="pull-right"><i class="fa fa-user-circle fa-2x"></i></div>
+            </div>
+            <div style="background:#f3f3f3; height:100vh; padding-left:15px;padding-right:15px;padding-top:10px;" class="row" ui-view></div>
+        </div>
+
+        <!--
+<div id="page-wrapper" class="open">
+<div id="sidebar-wrapper">
+<ul class="sidebar">
+<li class="sidebar-main">
+<a href="">
+MontCulator
+<span class="menu-icon glyphicon glyphicon-transfer"></span>
+</a>
+</li>
+<li class="sidebar-title">
+Menu
+</li>
+<li class="sidebar-list">
+<a href="">Users</a>
+</li>
+<li class="sidebar-list">
+<a href="">Mountains</a>
+</li>
+</ul>
+</div>
+<div id="content-wrapper">
+<div class="page-content">
+<div class="row header">
+<div class="col-xs-12">
+<div></div>
+<div class="meta">
+<div class="page">
+Dashboard
+</div>
+</div>
+</div>
+</div>
+<div class="ng-scope" ui-view>
+
+</div>
+</div>
+</div>
+</div>
 -->
-</body>
+    </body>
 </html>
