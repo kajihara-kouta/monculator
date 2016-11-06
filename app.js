@@ -18,6 +18,8 @@ var plan = require('./routes/plan.js');
 var contract = require('./routes/contract.js');
 //山情報
 var mountain = require('./routes/mountain.js');
+//ステータス
+var planStatus = require('./routes/planStatus.js');
 
 //body-parser
 app.use(bodyParser());
@@ -56,5 +58,8 @@ app.use('/apis/plan', plan);
 app.use('/apis/contract',contract);
 
 app.use('/apis/mountain', mountain);
+
+
+app.use('/apis/planStatus', planStatus);
 // start server on the specified port and binding host
 app.listen(9080);

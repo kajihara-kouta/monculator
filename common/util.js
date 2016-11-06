@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var dateformat = require('dateformat');
 //configuration
 var appconfig = require('../props/appconfig.json');
 //Schema
@@ -6,12 +7,14 @@ var user = require('../models/user.js');
 var emergencyContact = require('../models/emergencyContact.js');
 var plan = require('../models/plan.js');
 var contract = require('../models/contract.js');
+var planStatus = require('../models/planStatus.js');
 
 //collectionのセット
 mongoose.model('User',user);
 mongoose.model('EmergencyContact',emergencyContact);
 mongoose.model('Plan', plan);
 mongoose.model('Contract', contract);
+mongoose.model('PlanStatus', planStatus);
 //DB接続
 var db = mongoose.createConnection(appconfig.mongodb.url);
 
@@ -57,5 +60,15 @@ module.exports = {
     /* 指定したキーの保険料計算パラメーターを取得 */
     getPremiumParameterByKey: function(key) {
         return appconfig.premiumparameter[key];
+    },
+    /* ISODateから日本時間の年月日時分秒に変換します */
+    editISODate: function(val) {
+        if (val == undefined || val == null) {
+            return null;
+        }
+        var valMilliSec = new Date(val).getTime() + 9*60*60*1000;
+        var jptime = new Date(valMilliSec);
+        return dateformat(jptime, 'yyyy-mm-dd HH:MM:ss');
     }
+
 }
