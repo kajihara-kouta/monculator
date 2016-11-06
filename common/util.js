@@ -7,7 +7,7 @@ var user = require('../models/user.js');
 var emergencyContact = require('../models/emergencyContact.js');
 var plan = require('../models/plan.js');
 var contract = require('../models/contract.js');
-var planStatus = require('../models/planStatus.js');
+var planStatus = require('../models/planstatus.js');
 
 //collectionのセット
 mongoose.model('User',user);
