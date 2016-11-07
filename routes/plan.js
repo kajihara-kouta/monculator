@@ -8,6 +8,7 @@ var async = require('async');
 
 var Plan = db.model('Plan');
 var User = db.model('User');
+var PlanStatus = db.model('PlanStatus');
 
 //プラン情報1件取得
 router.get('/get/:_id', function(req,res,next) {
@@ -42,14 +43,91 @@ router.get('/get/user/:userid', function(req,res,next) {
 router.get('/get', function(req,res,next) {
     Plan.find({}, function(err, result) {
         if (err) throw new Error(err);
-        for (i in result) {
-            var tmpfromdate = result[i].fromdate;
-            result[i].fromdate = utils.editISODate(tmpfromdate);
-            var tmptodate = result[i].todate;
-            result[i].todate = utils.editISODate(tmptodate);
-        }
-        res.send(result);
+        console.log(result);
+        var resData= [];
+        async.mapSeries(result, function(data, next) {
+            console.log('data is...');
+            console.log(data);
+            //時刻の編集
+            var tmpfromdate = data.fromdate;
+            data.fromdate = utils.editISODate(tmpfromdate);
+            var tmptodate = data.todate;
+            data.todate = utils.editISODate(tmptodate);
+            //ステータス情報の取得
+            var users = [];
+            var userid = data.userid;
+            users.push(userid);
+            var parties = data.parties;
+            for (i in parties) {
+                users.push(parties[i].partyid);
+            }
+            //並び替え用
+            var statusArray = [];
+            PlanStatus.find({userid: {$in : users}}, function(err, results) {
+                console.log('planstatus is...');
+                console.log(results);
+                if (err) throw new Error(err);
+                for (index in results) {
+                    results[index].enteringdate = utils.editISODate(results[index].enteringdate);
+                    results[index].descendingdate = utils.editISODate(results[index].descendingdate);
+                    if (results[index].userid == userid) {
+                        statusArray.unshift(results[index]);
+                    } else {
+                        statusArray.push(results[index]);
+                    }
+                }
+                var editData = JSON.parse(JSON.stringify(data));
+                editData['planstatus'] = statusArray;
+                console.log('edit data is...');
+                console.log(editData);
+                resData.push(editData);
+                next(null,editData);
+            });
+        }, function(err, result) {
+            res.send(resData);
+        });
     });
+//        for (i in result) {
+//            async.waterfall([
+//                function(callback) {
+//                    var tmpfromdate = result[i].fromdate;
+//                    result[i].fromdate = utils.editISODate(tmpfromdate);
+//                    var tmptodate = result[i].todate;
+//                    result[i].todate = utils.editISODate(tmptodate);
+//                    next(null, 1);
+//                },function(arg0, callback) {
+//                    var users = [];
+//                    var userid = result[i].userid;
+//                    users.push(userid);
+//                    var parties = result[i].parties;
+//                    for (index in parties) {
+//                        users.push(parties[index].partyid);
+//                    }
+//                    console.log(users);
+//                    //登山状況の取得
+//                    PlanStatus.find({userid: {$in : users}}, function(err, results) {
+//                        if (err) throw new Error(err);
+//                        callback(null, results, userid);
+//                    });
+//                }, function(arg0, arg1, callback) {
+//                    //並び替え
+//                    var resData = [];
+//                    for (i in arg0) {
+//                        if (arg0[i].userid == arg1) {
+//                            resData.unshift(arg0[i]);
+//                        } else {
+//                            resData.push(arg0[i]);
+//                        }
+//                    }
+//                    result[i]['planStatuses'] = resData;
+//                    callback(null, resData, userid);
+//                }
+//            ], function(err, arg0, arg1) {
+//                if (err) throw new Error(err);
+//            });
+//        }
+//        res.send(result);
+
 });
 
 //プラン情報登録

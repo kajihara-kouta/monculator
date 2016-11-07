@@ -7,17 +7,38 @@ var db = utils.getMongoConnection();
 
 var PlanStatus = db.model('PlanStatus');
 
+//プラン単位のステータス
+router.get('/get/:planid', function(req,res,next) {
+    var planid = req.params.planid;
+    console.log(planid);
+    PlanStatus.find({planid: planid}, function(err, results) {
+        if (err) throw new Error(err);
+        for (i in results) {
+            var result = results[i];
+            var tmpEnteringDate = result.enteringdate;
+            result.enteringdate = utils.editISODate(tmpEnteringDate);
+            var tmpDescendingDate = result.descendingdate;
+            result.descendingdate = utils.editISODate(tmpDescendingDate);
+        };
+        res.send(results);
+    });
+});
+
 router.get('/get/:planid/:userid', function(req,res,next) {
     var planid = req.params.planid;
     var userid = req.params.userid;
 
     PlanStatus.findOne({planid: planid, userid: userid}, function(err, result) {
         if (err) throw new Error(err);
-        var tmpEnteringDate = result.enteringdate;
-        result.enteringdate = utils.editISODate(tmpEnteringDate);
-        var tmpDescendingDate = result.descendingdate;
-        result.descendingdate = utils.editISODate(tmpDescendingDate);
-        res.send(result);
+        if (result == null) {
+            res.send({});
+        } else {
+            var tmpEnteringDate = result.enteringdate;
+            result.enteringdate = utils.editISODate(tmpEnteringDate);
+            var tmpDescendingDate = result.descendingdate;
+            result.descendingdate = utils.editISODate(tmpDescendingDate);
+            res.send(result);
+        }
     });
 });
 
@@ -75,7 +96,7 @@ router.delete('/delete/:planid/:userid', function(req,res,next) {
     var planid = req.params.planid;
     var userid = req.params.userid;
     PlanStatus.remove({planid:planid, userid:userid}, function(err, result) {
-       if (err) res.send({result:false, message: 'delete failed'});
+        if (err) res.send({result:false, message: 'delete failed'});
         else res.send({result:true, message: 'delete ok'});
     });
 });
