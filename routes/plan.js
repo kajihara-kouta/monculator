@@ -63,7 +63,7 @@ router.get('/get', function(req,res,next) {
             }
             //並び替え用
             var statusArray = [];
-            PlanStatus.find({userid: {$in : users}}, function(err, results) {
+            PlanStatus.find({planid: data._id, userid: {$in : users}}, function(err, results) {
                 console.log('planstatus is...');
                 console.log(results);
                 if (err) throw new Error(err);
