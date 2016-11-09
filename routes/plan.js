@@ -14,29 +14,116 @@ var PlanStatus = db.model('PlanStatus');
 router.get('/get/:_id', function(req,res,next) {
     //対象のIDを取得
     var targetid = req.params._id;
-    Plan.findOne({_id:targetid}, function(err,result) {
-        if (err) throw new Error(err);
-        var tmpfromdate = result.fromdate;
-        result.fromdate = utils.editISODate(tmpfromdate);
-        var tmptodate = result.todate;
-        result.todate = utils.editISODate(tmptodate);
-        res.send(result);
-    });
+    async.waterfall([
+        function(callback) {
+            Plan.findOne({_id:targetid}, function(err,result) {
+                if (err) throw new Error(err);
+                var tmpfromdate = result.fromdate;
+                result.fromdate = utils.editISODate(tmpfromdate);
+                var tmptodate = result.todate;
+                result.todate = utils.editISODate(tmptodate);
+//                res.send(result);
+                callback(null, result);
+            });
+        }, function(arg0, callback) {
+            var data = arg0;
+            //ステータス情報の取得
+            var users = [];
+            var userid = data.userid;
+            users.push(userid);
+            var parties = data.parties;
+            for (i in parties) {
+                users.push(parties[i].partyid);
+            }
+            //並び替え用
+            var statusArray = [];
+            PlanStatus.find({planid: data._id, userid: {$in : users}}, function(err, results) {
+                console.log('planstatus is...');
+                console.log(results);
+                if (err) throw new Error(err);
+                for (index in results) {
+                    results[index].enteringdate = utils.editISODate(results[index].enteringdate);
+                    results[index].descendingdate = utils.editISODate(results[index].descendingdate);
+                    if (results[index].userid == userid) {
+                        statusArray.unshift(results[index]);
+                    } else {
+                        statusArray.push(results[index]);
+                    }
+                }
+                var editData = JSON.parse(JSON.stringify(data));
+                editData['planstatus'] = statusArray;
+                console.log('edit data is...');
+                console.log(editData);
+//                resData.push(editData);
+                callback(null, editData);
+            });
+        }], function(err, arg0) {
+            if (err) throw new Error(err);
+            res.send(arg0);
+    })
+
 });
 //ユーザごとのプラン情報取得
 router.get('/get/user/:userid', function(req,res,next) {
     //対象のユーザIDを取得
     var targetid = req.params.userid;
-    Plan.find({userid:targetid}, function(err, result) {
+    var resData = [];
+    async.waterfall([
+        function(callback) {
+            //ユーザ情報の取得
+            Plan.find({userid:targetid}, function(err, result) {
+                if (err) throw new Error(err);
+                for (i in result) {
+                    var tmpfromdate = result[i].fromdate;
+                    result[i].fromdate = utils.editISODate(tmpfromdate);
+                    var tmptodate = result[i].todate;
+                    result[i].todate = utils.editISODate(tmptodate);
+                }
+                callback(null, result);
+            });
+    }, function(arg0, callback) {
+        async.mapSeries(arg0, function(data, next) {
+            //ステータス情報の取得
+            var users = [];
+            var userid = data.userid;
+            users.push(userid);
+            var parties = data.parties;
+            for (i in parties) {
+                users.push(parties[i].partyid);
+            }
+            //並び替え用
+            var statusArray = [];
+            PlanStatus.find({planid: data._id, userid: {$in : users}}, function(err, results) {
+                console.log('planstatus is...');
+                console.log(results);
+                if (err) throw new Error(err);
+                for (index in results) {
+                    results[index].enteringdate = utils.editISODate(results[index].enteringdate);
+                    results[index].descendingdate = utils.editISODate(results[index].descendingdate);
+                    if (results[index].userid == userid) {
+                        statusArray.unshift(results[index]);
+                    } else {
+
+                        statusArray.push(results[index]);
+
+                    }
+                }
+                var editData = JSON.parse(JSON.stringify(data));
+                editData['planstatus'] = statusArray;
+                console.log('edit data is...');
+                console.log(editData);
+                resData.push(editData);
+                next(null,editData);
+            });
+        }, function(err, result) {
+
+            callback(null, resData);
+        });
+    }], function(err, arg0) {
         if (err) throw new Error(err);
-        for (i in result) {
-            var tmpfromdate = result[i].fromdate;
-            result[i].fromdate = utils.editISODate(tmpfromdate);
-            var tmptodate = result[i].todate;
-            result[i].todate = utils.editISODate(tmptodate);
-        }
-        res.send(result);
-    })
+        res.send(resData);
+    });
+
 });
 
 //全件取得
