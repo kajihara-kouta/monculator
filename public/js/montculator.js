@@ -40,17 +40,29 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         url:'/apis/plan/get',
     }).success(function(data, status, headers, config){
         for (i in data) {
+            //人数
             var count = data[i].parties.length + 1;
             data[i]['partyCount'] = count;
+            //日付処理
             var tmpfromdate = data[i].fromdate.substring(0,10);
             data[i].fromdate = tmpfromdate;
             var tmptodate = data[i].todate.substring(0,10);
             data[i].todate = tmptodate;
+            //ステータス情報
+            var planstatus = data[i].planstatus;
+            if (planstatus.length != 0) {
+                var status = planstatus[0].status;
+                if (status == 'Entering') {
+                    data[i].status = '入山';
+                } else if(status == 'Descending') {
+                    data[i].status = '下山';
+                } else {
+                    data[i].status = '−';
+                }
+            }
         }
-
         $scope.plans = data;
     });
-
     $scope.showModal = function(index) {
         var modalInstance = $uibModal.open({
             templateUrl: 'views/planmodal.html',
@@ -65,7 +77,8 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
                         user: $scope.plans[index].userid,
                         parties:$scope.plans[index].parties,
                         equipments: $scope.plans[index].equipments,
-                        foods: $scope.plans[index].foods
+                        foods: $scope.plans[index].foods,
+                        planstatus: $scope.plans[index].planstatus
                     }
                 }
             }
@@ -83,6 +96,23 @@ app.controller('planModalCtrl', function($scope, $http, $uibModalInstance, param
     //入山日、下山日
     $scope.fromdate = params.fromdate;
     $scope.todate = params.todate;
+    //ステータス情報
+    var planstatus = params.planstatus;
+    for (i in planstatus) {
+        var status = planstatus[i].status;
+        if (status == 'Entering') {
+            planstatus[i].status = '入山';
+        } else if(status == 'Descending') {
+            planstatus[i].status = '下山';
+        } else {
+            planstatus[i].status = '−';
+        }
+    }
+    if (planstatus.length != 0) {
+        $scope.mainplanstatus = planstatus[0];
+        console.log('hogehoge');
+        console.log(planstatus[0]);
+    }
     //閉じるボタン
     $scope.closeBtn = function() {
         $uibModalInstance.close('done');
