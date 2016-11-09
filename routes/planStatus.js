@@ -1,11 +1,19 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+var sendmail = require('../mailor.js');
 var dateformat = require('dateformat');
 var utils = require('../common/util.js');
 var db = utils.getMongoConnection();
-
+//登山ステータス
 var PlanStatus = db.model('PlanStatus');
+//緊急連絡先
+var EmergencyContact = db.model('EmergencyContact');
+//ユーザー情報
+var User = db.model('User');
+//登山計画書情報
+var Plan = db.model('Plan');
+
 
 //プラン単位のステータス
 router.get('/get/:planid', function(req,res,next) {
@@ -55,18 +63,52 @@ router.post('/entering', function(req,res,next) {
     planStatus.status = status;
     planStatus.enteringdate = enteringDate;
     var resData = {};
-    planStatus.save(function(err) {
-        if (err) {
-            console.log(err);
-            res.send({result: false, message:'insert failed'});
-        } else {
-            planStatus.enteringdate = utils.editISODate(planStatus.enteringdate);
-            resData['planStatus'] = planStatus;
-            resData['result'] = true;
-            resData['message'] = 'insert ok';
-            res.send(resData);
+    async.waterfall([
+        function(callback) {
+            planStatus.save(function(err) {
+                if (err) {
+                    console.log(err);
+                    res.send({result: false, message:'insert failed'});
+                } else {
+                    //レスポンスデータの編集
+                    planStatus.enteringdate = utils.editISODate(planStatus.enteringdate);
+                    resData['planStatus'] = planStatus;
+                    resData['result'] = true;
+                    resData['message'] = 'insert ok';
+//                    res.send(resData);
+                    callback(null, resData);
+                }
+            });
+        }, function (arg0, callback) {//arg0:resData
+            //緊急連絡先を取得する
+            console.log(arg0.planStatus.userid);
+            EmergencyContact.findOne({userid : arg0.planStatus.userid}, function(err, result) {
+                if (err) throw new Error(err);
+                console.log(result);
+                callback(null,arg0, result);
+            });
+        }, function(arg0, arg1, callback) {//arg0:resData, arg1:緊急連絡先
+            //ユーザ情報を取得する
+            User.findOne({userid : arg0.planStatus.userid}, function(err, result) {
+                if (err) throw new Error(err);
+                callback(null, arg0, arg1, result);
+            })
+        }, function(arg0, arg1, arg2, callback) {//arg0:resData, arg1:緊急連絡先, arg2:ユーザ情報
+            //登山計画情報を取得する
+            Plan.findOne({_id: arg0.planStatus.planid}, function(err, result) {
+                if (err) throw new Error(err);
+                callback(null, arg0,arg1,arg2,result);
+            })
+        }, function(arg0, arg1, arg2, arg3, callback) {
+            //メールを送信する
+            sendmail.sendMessage(arg1.email, arg2.name, arg0.planStatus.status, utils.getMountainById(arg3.mountain).mountainName);
+            callback(null, arg0, arg1, arg2, arg3);
         }
+    ], function(err, arg0, arg1, arg2, arg3) {
+        if (err) throw new Error(err);
+        res.send(arg0);
     });
+
 });
 
 //下山時のリクエスト
