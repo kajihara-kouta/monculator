@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         <!--
 <link rel="stylesheet" href="lib/css/main.min.css">
@@ -18,10 +18,15 @@
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="js/montculator.js"></script>
         <title>MontCulator Dashboard</title>
+        <style>
+            html {height:100%;}
+            body {height:100%;}
+
+        </style>
     </head>
     <body ng-app="montculatorApp" ng-controller="topCtrl as top">
 
-        <div class="col-xs-2" style="background:#30426a; height:100vh">
+        <div class="col-xs-2" style="background:#30426a; min-height:100%;height:100%;">
             <div class="row">
                 <div style="background:#2d3e63;color:#ffffff;font-size:20px; height:60px;padding-top:5px;padding-left:15px;">
                     <span>MontCulator</span>
@@ -35,12 +40,17 @@
             </div>
 
         </div>
-        <div class="col-xs-10">
-            <div style="height:60px;font-size:20px;padding-top:5px;">
-                <span>{{vm.paneltitle}}</span>
-                <div class="pull-right"><i class="fa fa-user-circle fa-2x"></i></div>
-            </div>
-            <div style="background:#f3f3f3; height:100vh; padding-left:15px;padding-right:15px;padding-top:10px;" class="row" ui-view></div>
+        <div class="col-xs-10" style="min-height:100%;height:100%;background:#f3f3f3;">
+            <div class="row" style="background:#ffffff;">
+               <div style="height:60px;font-size:20px;padding-top:5px;padding-left:15px;padding-right:15px;">
+                   <span>{{vm.paneltitle}}</span>
+                   <div class="pull-right"><i class="fa fa-user-circle fa-2x"></i></div>
+               </div>
+           </div>
+           <div class="row">
+               <div style="background:#f3f3f3;padding-left:15px;padding-right:15px;padding-top:10px;" class="" ui-view></div>
+           </div>
+
         </div>
 
         <!--
