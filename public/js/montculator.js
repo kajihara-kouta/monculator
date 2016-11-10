@@ -29,6 +29,7 @@ app.controller('topCtrl', function($scope, $http, $state) {
 //登山計画書一覧コントローラー
 app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
     $scope.$parent.vm.paneltitle = '登山計画書一覧';
+    $scope.plans = [];
     $http({
         method: 'GET',
         url: '/apis/mountain/get',
@@ -63,6 +64,7 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         }
         $scope.plans = data;
     });
+    console.log($scope.plans);
     $scope.limit= 5;
     $scope.begin = 0;
     $scope.itemsPerPage = 5;
