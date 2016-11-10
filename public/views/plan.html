@@ -24,11 +24,11 @@
                 <tbody>
                     <tr ng-repeat="plan in plans | limitTo: limit: begin">
                         <td class="col-xs-1">{{plan.status}}</td>
-                        <td class="col-xs-1">{{plan.userid}}</td>
+                        <td class="col-xs-2">{{plan.userid}}</td>
                         <td class="col-xs-1">{{plan.partyCount}}</td>
                         <td class="col-xs-2">{{plan.fromdate}}</td>
                         <td class="col-xs-2">{{plan.todate}}</td>
-                        <td class="col-xs-3">{{plan.remark}}</td>
+                        <td class="col-xs-2">{{plan.remark}}</td>
                         <td class="col-xs-2">
                             <button class="btn btn-success" ng-click="showModal($index);"><i class="glyphicon glyphicon-th-list"></i>詳細</button>
                         </td>
