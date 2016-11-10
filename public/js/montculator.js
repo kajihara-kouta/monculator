@@ -64,7 +64,7 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         }
         $scope.plans = data;
     });
-    console.log($scope.plans);
+
     $scope.limit= 5;
     $scope.begin = 0;
     $scope.itemsPerPage = 5;

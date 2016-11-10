@@ -22,7 +22,7 @@
             </thead>
             <div class="row">
                 <tbody>
-                    <tr ng-repeat="plan in plans">
+                    <tr ng-repeat="plan in plans | limitTo: limit: begin">
                         <td class="col-xs-1">{{plan.status}}</td>
                         <td class="col-xs-1">{{plan.userid}}</td>
                         <td class="col-xs-1">{{plan.partyCount}}</td>
