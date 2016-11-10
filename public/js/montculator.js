@@ -63,6 +63,20 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         }
         $scope.plans = data;
     });
+    $scope.limit= 5;
+    $scope.begin = 0;
+    $scope.itemsPerPage = 5;
+    $scope.page = function(page) {
+        $scope.begin = (page - 1) * $scope.limit;
+    }
+    $scope.range = function() {
+        $scope.maxPage = Math.ceil($scope.plans.length/$scope.itemsPerPage);
+        var ret = [];
+        for (var i = 1; i <= $scope.maxPage; i++) {
+            ret.push(i);
+        }
+        return ret;
+    }
     $scope.showModal = function(index) {
         var modalInstance = $uibModal.open({
             templateUrl: 'views/planmodal.html',
