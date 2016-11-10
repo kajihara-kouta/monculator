@@ -54,10 +54,10 @@ module.exports = {
         //合計値
         var totalScore = 0;
         //開始日のミリ秒
-        var stime = new Date(startYmd + ' 00:00:00').getTime();
+        var stime = new Date(startYmd).getTime();
         console.log(stime);
         //終了日のミリ秒
-        var etime = new Date(endYmd + ' 23:59:59').getTime();
+        var etime = new Date(endYmd).getTime();
         console.log(etime);
         //該当件数
         var counter = 0;
@@ -71,11 +71,11 @@ module.exports = {
                 if (weatherCode == "01" || weatherCode == "02") {   //晴れ系
                     tmpValue = 1;
                 } else if (weatherCode == "03" || weatherCode == "04") {    //曇り系
-                    tmpValue = 1.5;
+                    tmpValue = 1.2;
                 } else if (weatherCode == "09" || weatherCode == "10") {    //雨系
-                    tmpValue = 3;
+                    tmpValue = 1.5;
                 } else if (weatherCode == "11" || weatherCode == "13") {    //雷、雪
-                    tmpValue = 10;
+                    tmpValue = 5;
                 } else if (weatherCode == "50") {   //霧
                     tmpValue = 5;
                 } else {

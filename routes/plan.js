@@ -224,12 +224,14 @@ router.post('/insert', function(req,res,next) {
     plan.userid = req.body.userid;
     plan.planname = req.body.planname;
     //{parties:[xxxx,xxxx,xxxx,...]}
-    var partiesparam = req.body.parties.partyid;
-    var parties = [];
-    for (party in partiesparam) {
-        parties.push({partyid:partiesparam[party]});
+    if (req.body.parties != undefined) {
+        var partiesparam = req.body.parties.partyid;
+        var parties = [];
+        for (party in partiesparam) {
+            parties.push({partyid:partiesparam[party]});
+        }
+        plan.parties = parties;
     }
-    plan.parties = parties;
     plan.fromdate = editDate(req.body.fromdate);
     plan.todate = editDate(req.body.todate);
     plan.mountain = req.body.mountain;
@@ -267,38 +269,54 @@ router.post('/insert', function(req,res,next) {
             //ユーザ情報を取得する
             User.findOne({userid:req.body.userid}, function(err, user) {
                 var age = calc.calcAge(user.birthymd);
-                var premium = calc.calcPremium(req.body.fromdate, req.body.todate, age, req.body.mountain);
-                premiumresData['premium'] = premium;
-                totalPremium = totalPremium + premium;
-                callback(null, premium);
+                //var premium =
+                calc.calcPremium(req.body.fromdate, req.body.todate, age, req.body.mountain).then(function(premium) {
+                    premiumresData['premium'] = premium;
+                    totalPremium = totalPremium + premium;
+                    callback(null, premium, '');
+                }).catch(function(msg) {
+                    premiumresData['premium'] = msg.premium;
+                    totalPremium = totalPremium + msg.premium;
+                    callback(null, msg.premium, msg.message);
+                });
             });
-        }, function(arg0, callback) {
+        }, function(arg0,arg1, callback) {
             async.mapSeries(parties, function(data, next) {
                 User.findOne({userid:data.partyid}, function(err, user) {
 
                     var partyage = calc.calcAge(user.birthymd);
-                    var partypremium = calc.calcPremium(req.body.fromdate, req.body.todate, partyage, req.body.mountain);
-                    //合計保険料
-                    totalPremium = totalPremium + partypremium;
-                    //パーティ用保険料をセット
-                    var tmpdata = {};
-                    tmpdata['partyid'] = data.partyid;
-                    tmpdata['premium'] = partypremium;
-                    partyPremiumArray.push(tmpdata);
-                    next(null, user);
+                    //var partypremium =
+                    calc.calcPremium(req.body.fromdate, req.body.todate, partyage, req.body.mountain).then(function(partypremium){
+                        //合計保険料
+                        totalPremium = totalPremium + partypremium;
+                        //パーティ用保険料をセット
+                        var tmpdata = {};
+                        tmpdata['partyid'] = data.partyid;
+                        tmpdata['premium'] = partypremium;
+                        partyPremiumArray.push(tmpdata);
+                        next(null, user);
+                    });
                 });
             }, function(err, results) {
-                callback(null, results);
+                callback(null, arg0, arg1, results);
             });
         },
-    ],function(err, arg0) {
+    ],function(err, arg0, arg1, arg2) {
         premiumresData['partypremium'] = partyPremiumArray;
         premiumresData['totalpremium'] = totalPremium;
         plan.save(function(err) {
             if (err) res.send({result: false, message:'insert failed'});
             else
-                premiumresData['result'] = true;
-                premiumresData['message'] = 'insert ok';
+                if (arg0 == 0) {
+                    premiumresData['result'] = false;
+                } else {
+                    premiumresData['result'] = true;
+                }
+                if (arg1 != '') {
+                    premiumresData['message'] = arg1;
+                } else {
+                    premiumresData['message'] = 'insert ok';
+                }
                 premiumresData['_id'] = plan._id;
                 console.log(premiumresData);
                 res.send(premiumresData);

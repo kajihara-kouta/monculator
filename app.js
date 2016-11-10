@@ -59,6 +59,20 @@ app.use('/apis/contract',contract);
 
 app.use('/apis/mountain', mountain);
 
+//stub
+var utils = require('./common/util.js');
+var calc = require('./common/calc.js');
+app.get('/apis/stub/weatherinfo/:mountainid', function(req,res) {
+    var mountainid = req.params.mountainid;
+    var mountinfo = utils.getMountainById(mountainid);
+
+    //var result =
+    calc.calcPremium('2016-11-11 03:00:00', '2016-11-11 23:00:00', 50, mountainid).then(function(result) {
+        res.send({premium:result});
+    });
+
+});
+
 
 app.use('/apis/planStatus', planStatus);
 // start server on the specified port and binding host
