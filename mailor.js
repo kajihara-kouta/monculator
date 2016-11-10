@@ -46,12 +46,12 @@ module.exports = {
             port: 465,
             ssl: true,
             use_authentication: true,
-            user: "xxxxxxxx@gmail.com",
-            pass: "xxxxxx"
+            user: "mountculator@gmail.com",
+            pass: "kota0224"
         };
         //メール情報
         var message = {
-            sender: 'xxxxxxxx@gmail.com',
+            sender: 'mountculator@gmail.com',
             to: email,
             subject: createTitle(status, username),
             body: createMessage(status, username, mountainname)
@@ -59,14 +59,13 @@ module.exports = {
         console.log('message is ...');
         console.log(message);
         //メールを送信します
-        //TODOメールアドレスが出来次第実装
-//        nodemailer.send_mail(message, function(err, success) {
-//            if (err) {
-//                console.log(err);
-//            } else if (success) {
-//                console.log(success);
-//            }
-//        });
+        nodemailer.send_mail(message, function(err, success) {
+            if (err) {
+                console.log(err);
+            } else if (success) {
+                console.log(success);
+            }
+        });
     },
 
     alertMail: function() {
