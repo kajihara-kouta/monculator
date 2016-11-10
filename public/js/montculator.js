@@ -188,6 +188,20 @@ app.controller('userCtrl', function($scope, $http, $state, $uibModal) {
         }
         $scope.users = data;
     });
+    $scope.limit= 8;
+    $scope.begin = 0;
+    $scope.itemsPerPage = 8;
+    $scope.page = function(page) {
+        $scope.begin = (page - 1) * $scope.limit;
+    }
+    $scope.range = function() {
+        $scope.maxPage = Math.ceil($scope.users.length/$scope.itemsPerPage);
+        var ret = [];
+        for (var i = 1; i <= $scope.maxPage; i++) {
+            ret.push(i);
+        }
+        return ret;
+    }
     $scope.showModal = function(index) {
         console.log(index);
         console.log($scope.users[index]);

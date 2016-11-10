@@ -1,5 +1,5 @@
-<div ng-controller="userCtrl as user" style="background:#ffffff;">
-    <div class="table-responsive">
+<div ng-controller="userCtrl as user">
+    <div class="table-responsive" style="background:#ffffff;">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -22,5 +22,12 @@
                 </tbody>
             </div>
         </table>
+    </div>
+    <div class="centering">
+        <ul class="pagination">
+            <li ng-repeat="n in range()" ng-click="page(n)">
+                <a>{{n}}</a>
+            </li>
+        </ul>
     </div>
 </div>
