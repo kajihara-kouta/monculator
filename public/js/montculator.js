@@ -65,9 +65,9 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         $scope.plans = data;
     });
 
-    $scope.limit= 5;
+    $scope.limit= 8;
     $scope.begin = 0;
-    $scope.itemsPerPage = 5;
+    $scope.itemsPerPage = 8;
     $scope.page = function(page) {
         $scope.begin = (page - 1) * $scope.limit;
     }
