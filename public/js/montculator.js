@@ -110,8 +110,20 @@ app.controller('planModalCtrl', function($scope, $http, $uibModalInstance, param
     console.log(params.parties);
     //装備
     $scope.equipments = params.equipments;
+    for (i in $scope.equipments) {
+        var name = $scope.equpments[i].name;
+        if (name == undefined || name == null || name == '') {
+            $scope.equpments[i].name = 'その他装備';
+        }
+    }
     //食料
     $scope.foods = params.foods;
+    for (j in $scope.foods) {
+        var name = $scope.foods[j].foodtype;
+        if (name == undefined || name == null || name == '') {
+            $scope.foods[i].foodtype = '食料';
+        }
+    }
     //入山日、下山日
     $scope.fromdate = params.fromdate;
     $scope.todate = params.todate;
