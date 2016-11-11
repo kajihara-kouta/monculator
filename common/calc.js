@@ -22,6 +22,7 @@ module.exports = {
     calcPremium: function(fromdate, todate, age, mountainId) {
         return new Promise(function(resolve, reject) {
             var nowdatetime = new Date().getTime();
+            console.log('nowdate is:', nowdatetime);
             if (new Date(fromdate).getTime() < nowdatetime || new Date(todate).getTime() < nowdatetime) {
                 reject({message:"you can't specify the past day", premium:0});
                 return;
@@ -51,7 +52,7 @@ module.exports = {
                     })
                 }, function(arg0, callback) {
                     var averagescore = common.getAverageScore(fromdate, todate, arg0);
-                    console.log(averagescore);
+                    console.log('average score is:', averagescore);
                     var respremium = premium * averagescore;
                     callback(null, respremium);
                 }
