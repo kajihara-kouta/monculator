@@ -80,7 +80,9 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         return ret;
     }
     $scope.showModal = function(index) {
+        var indexno = $scope.begin + index;
         console.log('selected index is:', index);
+        console.log(indexno);
         var modalInstance = $uibModal.open({
             templateUrl: 'views/planmodal.html',
             controller: 'planModalCtrl',
@@ -88,14 +90,14 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
             resolve: {
                 params: function() {
                     return {
-                        fromdate: $scope.plans[index].fromdate,
-                        todate: $scope.plans[index].todate,
-                        mountainid: $scope.plans[index].mountain,
-                        user: $scope.plans[index].userid,
-                        parties:$scope.plans[index].parties,
-                        equipments: $scope.plans[index].equipments,
-                        foods: $scope.plans[index].foods,
-                        planstatus: $scope.plans[index].planstatus
+                        fromdate: $scope.plans[indexno].fromdate,
+                        todate: $scope.plans[indexno].todate,
+                        mountainid: $scope.plans[indexno].mountain,
+                        user: $scope.plans[indexno].userid,
+                        parties:$scope.plans[indexno].parties,
+                        equipments: $scope.plans[indexno].equipments,
+                        foods: $scope.plans[indexno].foods,
+                        planstatus: $scope.plans[indexno].planstatus
                     }
                 }
             }
