@@ -170,6 +170,7 @@ app.controller('planModalCtrl', function($scope, $http, $uibModalInstance, param
 //ユーザー情報一覧コントローラー
 app.controller('userCtrl', function($scope, $http, $state, $uibModal) {
     $scope.$parent.vm.paneltitle = 'ユーザー情報一覧';
+    $scope.users = [];
     $http({
         method:'GET',
         url:'/apis/users/get',
