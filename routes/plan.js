@@ -317,7 +317,7 @@ router.post('/insert', function(req,res,next) {
                 } else {
                     premiumresData['message'] = 'insert ok';
                 }
-                premiumresData['_id'] = plan._id;
+                premiumresData['_id'] = plan._id.toString();
                 console.log(premiumresData);
                 res.send(premiumresData);
         });
