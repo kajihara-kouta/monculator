@@ -11,7 +11,7 @@
             </thead>
             <div class="row">
                 <tbody>
-                    <tr ng-repeat="user in users">
+                    <tr ng-repeat="user in users | limitTo: limit: begin">
                         <td class="col-xs-2">{{user.userid}}</td>
                         <td class="col-xs-3">{{user.name}}</td>
                         <td class="col-xs-2">{{user.sex}}</td>
