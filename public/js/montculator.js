@@ -80,6 +80,7 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
         return ret;
     }
     $scope.showModal = function(index) {
+        console.log('selected index is:', index);
         var modalInstance = $uibModal.open({
             templateUrl: 'views/planmodal.html',
             controller: 'planModalCtrl',
