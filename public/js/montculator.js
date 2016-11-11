@@ -109,11 +109,13 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
 app.controller('planModalCtrl', function($scope, $http, $uibModalInstance, params) {
     console.log(params.parties);
     //装備
+    $scope.equipments = [];
     $scope.equipments = params.equipments;
+    console.log(params.equipments);
     for (i in $scope.equipments) {
-        var name = $scope.equpments[i].name;
+        var name = $scope.equipments[i].name;
         if (name == undefined || name == null || name == '') {
-            $scope.equpments[i].name = 'その他装備';
+            $scope.equipments[i].name = 'その他装備';
         }
     }
     //食料
