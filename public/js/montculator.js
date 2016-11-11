@@ -62,7 +62,7 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
                 }
             }
         }
-        $scope.plans = data;
+        $scope.plans = data.reverse();
     });
 
     $scope.limit= 8;
@@ -81,6 +81,7 @@ app.controller('planCtrl', function($scope, $http, $state, $uibModal) {
     }
     $scope.showModal = function(index) {
         var indexno = $scope.begin + index;
+        var planLen = $scope.plans.length;
         console.log('selected index is:', index);
         console.log(indexno);
         var modalInstance = $uibModal.open({
